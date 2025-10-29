@@ -42,12 +42,54 @@ print(f"   Ubicación: {LOCATION}")
 print(f"   RAG Engine ID: {RAG_ENGINE_ID}")
 print()
 
-def run_rag_query(query: str):
+def select_gemini_model():
+    """
+    Permite al usuario seleccionar el modelo de Gemini a usar.
+    Basado en la documentación oficial: https://cloud.google.com/vertex-ai/generative-ai/docs/learn/model-versions
+    """
+    models = {
+        "1": "gemini-2.5-pro",            # Más reciente (Jun 2025) ⭐
+        "2": "gemini-2.5-flash",          # Más reciente (Jun 2025) ⭐
+        "3": "gemini-2.5-flash-lite",     # Más reciente (Jul 2025) ⭐
+        "4": "gemini-2.0-flash-001",      # Estable hasta Feb 2026
+        "5": "gemini-2.0-flash-lite-001", # Estable hasta Feb 2026
+        "6": "gemini-1.5-pro-002",        # Se retira Sep 2025
+        "7": "gemini-1.5-flash-002"       # Se retira Sep 2025
+    }
+    
+    print("🤖 Selecciona el modelo de Gemini:")
+    print("   (Modelos más recientes marcados con ⭐)")
+    for key, model in models.items():
+        if key in ["1", "2", "3"]:
+            print(f"   {key}. {model} ⭐ (Serie 2.5 - Más reciente)")
+        elif key in ["4", "5"]:
+            print(f"   {key}. {model} (Serie 2.0)")
+        else:
+            print(f"   {key}. {model} (Serie 1.5 - se retira en 2025)")
+    
+    while True:
+        try:
+            choice = input("Selecciona una opción (1-7) [Por defecto: 1]: ").strip()
+            if not choice:
+                choice = "1"
+            
+            if choice in models:
+                selected_model = models[choice]
+                print(f"✅ Modelo seleccionado: {selected_model}")
+                return selected_model
+            else:
+                print("❌ Opción inválida. Por favor selecciona 1, 2, 3, 4, 5, 6 o 7.")
+        except KeyboardInterrupt:
+            print("\n👋 Saliendo...")
+            raise KeyboardInterrupt
+
+def run_rag_query(query: str, model: str):
     """
     Inicializa el cliente de Gemini y consulta el modelo usando un motor RAG 
     para 'grounding'.
     """
     print(f"-> Conectando al motor RAG: {RAG_ENGINE_ID} en {LOCATION}...")
+    print(f"-> Usando modelo: {model}")
     
     try:
         # Inicializa el cliente ADK para Vertex AI
@@ -66,7 +108,7 @@ def run_rag_query(query: str):
 
         # Llama a la API de generación con el recurso de búsqueda
         response = client.models.generate_content(
-            model='gemini-2.0-flash-exp',  # Modelo que deseas usar
+            model=model,  # Modelo seleccionado por el usuario
             contents=query,
             config=genai.types.GenerateContentConfig(
                 tools=[genai.types.Tool(
@@ -111,6 +153,42 @@ def run_rag_query(query: str):
 
 
 if __name__ == "__main__":
-    # La consulta que quieres que el agente responda usando tus datos
-    test_query = "Según mis documentos, ¿cuáles son los pasos clave para la integración de API?"
-    run_rag_query(test_query)
+    print("🤖 Agente RAG Interactivo")
+    print("=" * 50)
+    
+    # Selecciona el modelo de Gemini
+    selected_model = select_gemini_model()
+    print()
+    
+    print("Escribe 'salir' o 'exit' para terminar")
+    print("Escribe 'modelo' para cambiar el modelo")
+    print()
+    
+    while True:
+        try:
+            # Solicita la consulta al usuario
+            query = input("💬 Ingresa tu consulta: ").strip()
+            
+            # Verifica si el usuario quiere salir
+            if query.lower() in ['salir', 'exit', 'quit', '']:
+                print("👋 ¡Hasta luego!")
+                break
+            
+            # Verifica si el usuario quiere cambiar el modelo
+            if query.lower() == 'modelo':
+                print()
+                selected_model = select_gemini_model()
+                print()
+                continue
+            
+            print()
+            run_rag_query(query, selected_model)
+            print(f"\n{'=' * 50}")
+            
+        except KeyboardInterrupt:
+            print("\n👋 ¡Hasta luego!")
+            break
+        except Exception as e:
+            print(f"\n[ERROR] Error inesperado: {e}")
+            print("Intenta de nuevo...")
+            print()

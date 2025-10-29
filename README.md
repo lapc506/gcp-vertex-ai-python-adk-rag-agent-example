@@ -73,6 +73,36 @@ python rag_engine_agent.py
 **❌ No usar**: `GCP_LOCATION=global`  
 **✅ Usar**: `GCP_LOCATION=us-central1`
 
+## 📚 Recursos Adicionales
+
+### Documentación Oficial
+- [Versiones de Modelos de Vertex AI](https://cloud.google.com/vertex-ai/generative-ai/docs/learn/model-versions)
+- [Guía de Migración a Gemini 2.0](https://cloud.google.com/vertex-ai/generative-ai/docs/migrate)
+- [Vertex AI Search Documentation](https://cloud.google.com/vertex-ai-search/docs)
+
+### Migración de Modelos
+Rutas de migración recomendadas:
+
+**Para máximo rendimiento (Serie 2.5 - Más reciente):**
+1. **gemini-1.5-pro-002** → **gemini-2.5-pro**
+2. **gemini-1.5-flash-002** → **gemini-2.5-flash**
+
+**Para estabilidad (Serie 2.0):**
+1. **gemini-1.5-pro-002** → **gemini-2.0-flash-001**
+2. **gemini-1.5-flash-002** → **gemini-2.0-flash-lite-001**
+
+### Comandos Útiles
+```bash
+# Verificar autenticación
+gcloud auth list
+
+# Verificar proyecto actual
+gcloud config get-value project
+
+# Listar motores de búsqueda disponibles
+gcloud alpha search-engine list
+```
+
 ## 📂 Archivos Clave
 
 Archivo
@@ -84,7 +114,33 @@ Descripción
 
 ## ✨ Características
 
-- Uso de entorno virtual (`venv`) para aislamiento.
-- Conexión directa a la API de Gemini usando el cliente `google-genai` (ADK).
-- Implementación de RAG mediante la configuración de un `GroundingResource`.
-- Manejo básico de errores de API.
+- **Agente RAG Interactivo**: Interfaz de línea de comandos para consultas en tiempo real
+- **Selección de Modelos**: Elige entre múltiples modelos de Gemini disponibles
+- **Modelos Soportados** (basado en [documentación oficial](https://cloud.google.com/vertex-ai/generative-ai/docs/learn/model-versions)):
+  - `gemini-2.5-pro` ⭐ (Más reciente - Jun 2025)
+  - `gemini-2.5-flash` ⭐ (Más reciente - Jun 2025)
+  - `gemini-2.5-flash-lite` ⭐ (Más reciente - Jul 2025)
+  - `gemini-2.0-flash-001` (Estable hasta Feb 2026)
+  - `gemini-2.0-flash-lite-001` (Estable hasta Feb 2026)
+  - `gemini-1.5-pro-002` (Se retira Sep 2025)
+  - `gemini-1.5-flash-002` (Se retira Sep 2025)
+- **Cambio de Modelo en Tiempo Real**: Escribe 'modelo' para cambiar sin reiniciar
+- **Fuentes de Información**: Muestra las fuentes utilizadas para generar respuestas
+- **Manejo de Errores**: Gestión robusta de errores de API y conectividad
+- **Configuración Flexible**: Variables de entorno para fácil configuración
+
+## 🤖 Modelos Disponibles
+
+El agente soporta los siguientes modelos de Gemini:
+
+| Modelo | Serie | Fecha de Lanzamiento | Fecha de Retiro | Recomendación |
+|--------|-------|---------------------|-----------------|---------------|
+| `gemini-2.5-pro` | 2.5 ⭐ | Jun 17, 2025 | Jun 17, 2026 | **Más reciente y potente** |
+| `gemini-2.5-flash` | 2.5 ⭐ | Jun 17, 2025 | Jun 17, 2026 | **Más reciente y rápido** |
+| `gemini-2.5-flash-lite` | 2.5 ⭐ | Jul 22, 2025 | Jul 22, 2026 | **Más reciente y ligero** |
+| `gemini-2.0-flash-001` | 2.0 | Feb 5, 2025 | Feb 5, 2026 | Estable para producción |
+| `gemini-2.0-flash-lite-001` | 2.0 | Feb 25, 2025 | Feb 25, 2026 | Estable y ligero |
+| `gemini-1.5-pro-002` | 1.5 ⚠️ | Sep 24, 2024 | Sep 24, 2025 | Migrar a gemini-2.5-pro |
+| `gemini-1.5-flash-002` | 1.5 ⚠️ | Sep 24, 2024 | Sep 24, 2025 | Migrar a gemini-2.5-flash |
+
+> **Nota**: Los modelos de la serie **2.5** ⭐ son los más recientes y recomendados para nuevos proyectos. Los modelos 1.5 se retirarán en septiembre de 2025.

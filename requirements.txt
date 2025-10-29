@@ -1,3 +1,13 @@
 # Dependencias para usar el Kit de Desarrollo de Agentes (ADK) de Vertex AI
+# ADK v1.17.0 - Latest release
+google-adk==1.17.0
+
+# Core Google Cloud packages
 google-cloud-aiplatform
 google-genai
+
+# Para Discovery Engine / Vertex AI Search
+google-cloud-discoveryengine
+
+# Para manejar variables de entorno de forma segura
+python-dotenv

@@ -1,4 +1,14 @@
-# Python
+# Entornos virtuales de Python
+venv/
+env/
+ENV/
+.venv/
+.env/
+
+# Archivos de configuración local
+.env
+
+# Archivos de Python
 __pycache__/
 *.py[cod]
 *$py.class
@@ -19,36 +29,89 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
+MANIFEST
 
-# Virtual Environment
-venv/
-env/
-ENV/
+# PyInstaller
+*.manifest
+*.spec
 
-# Google Cloud Credentials
-*.json
-application_default_credentials.json
-service-account-key.json
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
 
-# Environment Variables
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# pyenv
+.python-version
+
+# celery beat schedule file
+celerybeat-schedule
+
+# SageMath parsed files
+*.sage.py
+
+# Environments
 .env
-.env.local
-.env.production
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
 
-# IDE
+# Spyder project settings
+.spyderproject
+.spyproject
+
+# Rope project settings
+.ropeproject
+
+# mkdocs documentation
+/site
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# IDEs
 .vscode/
 .idea/
 *.swp
 *.swo
+*~
 
-# OS
+# OS generated files
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
 Thumbs.db
 
 # Logs
 *.log
-logs/
 
 # Temporary files
 *.tmp
 *.temp
+.tmp/
+.temp/
+
+# Google Cloud credentials (por seguridad)
+*.json
+!.env.example

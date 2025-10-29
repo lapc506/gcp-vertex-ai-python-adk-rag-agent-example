@@ -1,0 +1,3 @@
+# Dependencias para usar el Kit de Desarrollo de Agentes (ADK) de Vertex AI
+google-cloud-aiplatform
+google-genai
